@@ -19,6 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Moodlex"
+rootProject.name = "moodlex"
 include(":app")
- 
