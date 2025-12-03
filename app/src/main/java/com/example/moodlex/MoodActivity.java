@@ -1,11 +1,13 @@
 package com.example.moodlex;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 public class MoodActivity extends AppCompatActivity {
 
@@ -17,36 +19,42 @@ public class MoodActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.mood_toolbar);
         setSupportActionBar(toolbar);
         // Toolbar back button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Load default fragment (checkin. the toolbar helps with navigation in moodactivity.)
         if (savedInstanceState == null) {
-            loadCheckInFragment();
+            loadFragment(new MoodCheckInFragment());
         }
 
         //toolbar menu actions
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.menu_home) {
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                finish();
                 return true;
             }
-            if (item.getItemId() == R.id.menu_checkin) {
-                loadCheckInFragment();
-                return true;
-            }
-
-            if (item.getItemId() == R.id.menu_history) {
-                loadHistoryFragment();
+            if (item.getItemId() == R.id.menu_mood_checkin) {
+                loadFragment(new MoodCheckInFragment());
                 return true;
             }
 
-            if (item.getItemId() == R.id.menu_help) {
+            if (item.getItemId() == R.id.menu_mood_history) {
+                loadFragment(new MoodHistoryFragment());
+                return true;
+            }
+
+            if (item.getItemId() == R.id.menu_mood_help) {
                 showHelpDialog();
                 return true;
             }
             return false;
+        });
+
+        // handle back button, want to go back to main
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                finish();
+            }
         });
     }
 
@@ -55,18 +63,18 @@ public class MoodActivity extends AppCompatActivity {
         String helpMessage =
                 "Mood Section (Version 1.0)\n\n" +
                         "Group Members:\n" +
-                        "! Samir Bani\n" +
-                        "! Hibah Choudhry\n" +
-                        "! Oluwaseun Ilori\n" +
-                        "! Bukunmi Kadri\n" +
-                        "! Vidya Puliadi Ravi Chandran\n\n" +
+                        "Samir Bani\n" +
+                        "Hibah Choudhry\n" +
+                        "Oluwaseun Ilori\n" +
+                        "Bukunmi Kadri\n" +
+                        "Vidya Puliadi Ravi Chandran\n\n" +
 
                         "Instructions:\n" +
-                        "! Check In: Select an emoji to record your mood and add an optional note, then press Save.\n" +
-                        "! History: Shows all your previous mood entries.\n" +
+                        "Check In: Select an emoji to record your mood and add an optional note, then press Save.\n" +
+                        "History: Shows all your previous mood entries.\n" +
                         "  - Tap a mood to view details or delete it.\n" +
                         "  - Press 'Delete All Entries' to clear all saved moods.\n" +
-                        "! Navigation:\n" +
+                        "Navigation:\n" +
                         "  - Use the toolbar to switch between Check In and History.\n" +
                         "  - Use the Home button to return to the main menu.\n\n" +
                         "This section tracks your emotional patterns to help with reflection and communication.";
@@ -79,15 +87,9 @@ public class MoodActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void loadCheckInFragment() {
+    private void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.moodFragmentContainer, new MoodCheckInFragment())
-                .commit();
-    }
-
-    private void loadHistoryFragment() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.moodFragmentContainer, new MoodHistoryFragment())
+                .replace(R.id.moodFragmentContainer, fragment)
                 .addToBackStack(null)
                 .commit();
     }

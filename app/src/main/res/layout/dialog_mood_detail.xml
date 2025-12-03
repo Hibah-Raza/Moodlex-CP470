@@ -39,8 +39,9 @@
             android:id="@+id/btn_dialog_delete"
             style="?android:attr/buttonBarButtonStyle"
             android:text="Delete"
-            android:gravity="start"
+            android:textColor="@android:color/white"
             android:layout_marginStart="20dp"
+            android:backgroundTint="#D32F2F"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -48,7 +49,9 @@
             android:id="@+id/btn_dialog_cancel"
             style="?android:attr/buttonBarButtonStyle"
             android:text="Cancel"
+            android:textColor="@android:color/white"
             android:layout_marginStart="20dp"
+            android:backgroundTint="@color/mood_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

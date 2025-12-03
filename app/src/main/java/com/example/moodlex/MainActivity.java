@@ -31,13 +31,15 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // placeholders until we build the other sections
-        btnJournal.setOnClickListener(v ->
-                showNotReadyMessage()
-        );
+        btnJournal.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, JournalActivity.class);
+            startActivity(intent);
+        });
 
         btnTrends.setOnClickListener(v ->
                 showNotReadyMessage()
+                /*            Intent intent = new Intent(MainActivity.this, JournalActivity.class);
+            startActivity(intent);*/
         );
     }
 
@@ -50,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
         String message =
                 "Moodlex App (Version 1.0)\n\n" +
                         "Sections:\n" +
-                        "• Mood Section – Track emotions and view history.\n" +
-                        "• Journal Section – Write and store personal reflections.\n" +
-                        "• Trends Section – View mood graphs and emotional patterns.\n\n" +
+                        "- Mood Section – Track emotions and view history.\n" +
+                        "- Journal Section – Write and store personal reflections.\n" +
+                        "- Trends Section – View mood graphs and emotional patterns.\n\n" +
                         "Navigation:\n" +
-                        "• Use the toolbar menu to switch between sections.\n" +
-                        "• All sections include a Home option to return here.\n";
+                        "- Use the toolbar menu to switch between sections.\n" +
+                        "- All sections include a Home option to return here.\n";
 
         new AlertDialog.Builder(this)
                 .setTitle("Help & Instructions")  // hardcoded string
@@ -80,16 +82,16 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.menu_journal) {
-            // Placeholder until JournalActivity is built
-            Toast.makeText(this, "Journal section coming soon!", Toast.LENGTH_SHORT).show();  // hardcoded string
+            startActivity(new Intent(this, JournalActivity.class));
             return true;
         }
         if (id == R.id.menu_trends) {
             // Placeholder until TrendsActivity is built
             Toast.makeText(this, "Trends section coming soon!", Toast.LENGTH_SHORT).show();
+            /*startActivity(new Intent(this, JournalActivity.class));*/
             return true;
         }
-        if (id == R.id.menu_help) {
+        if (id == R.id.menu_mood_help) {
             showMainHelpDialog();
             return true;
         }
