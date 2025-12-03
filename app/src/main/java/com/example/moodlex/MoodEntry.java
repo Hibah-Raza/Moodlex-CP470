@@ -5,7 +5,7 @@ public class MoodEntry {
     private int mood;
     private String note;
     private long timestamp;
-
+//balls
     public MoodEntry(int id, int mood, String note, long timestamp) {
         this.id = id;
         this.mood = mood;
