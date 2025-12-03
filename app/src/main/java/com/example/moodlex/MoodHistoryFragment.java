@@ -39,8 +39,6 @@ public class MoodHistoryFragment extends Fragment {
         listView = view.findViewById(R.id.list_moods);
         Button deleteAll = view.findViewById(R.id.btn_delete_all);
 
-        adapter = new MoodAdapter(requireActivity(), moodList); // Set adapter after listview is ready
-        listView.setAdapter(adapter);
 
         new LoadMoodsTask().execute();
 
@@ -64,29 +62,29 @@ public class MoodHistoryFragment extends Fragment {
                     .setView(dialogView)
                     .create();
 
-            // Handle delete button
-            dialogView.findViewById(R.id.btn_dialog_delete).setOnClickListener(btn -> {
+            // handle delete button
+            dialogView.findViewById(R.id.btn_dialog_delete).setOnClickListener(btn -> { // new logic to keep sync for sorted list
                 new AlertDialog.Builder(requireContext())
-                        .setTitle("Delete Mood")  // hardcoded string
-                        .setMessage("Are you sure you want to delete this mood?")
-                        .setPositiveButton("Yes", (d, which) -> {  // hardcoded string
+                        .setTitle("Delete Mood") // hardcoded string
+                        .setMessage("Are you sure you want to delete this mood?") // hardcoded string
+                        .setPositiveButton("Yes", (d, which) -> { // hardcoded string
+
                             SharedPreferences prefs = requireActivity()
                                     .getSharedPreferences("moods", Context.MODE_PRIVATE);
+
                             prefs.edit().remove("mood_" + entry.getTimestamp()).apply();
                             moodList.remove(position);
                             adapter.notifyDataSetChanged();
-
-                            Snackbar.make(requireView(), "Mood deleted!", Snackbar.LENGTH_LONG).show();  // hardcoded string
+                            Snackbar.make(requireView(), "Mood deleted!", Snackbar.LENGTH_LONG).show(); // hardcoded string
 
                             d.dismiss();
                             dialog.dismiss();
                         })
-                        .setNegativeButton("Cancel", (d, which) -> d.dismiss())  // hardcoded string
-                        .create()
+                        .setNegativeButton("Cancel", (d, which) -> d.dismiss()) // hardcoded string
                         .show();
             });
 
-            // Handle cancel button
+            // handle cancel button
             dialogView.findViewById(R.id.btn_dialog_cancel).setOnClickListener(btn -> {
                 dialog.dismiss();
             });
@@ -139,22 +137,17 @@ public class MoodHistoryFragment extends Fragment {
         @Override
         protected ArrayList<MoodEntry> doInBackground(Void... voids) {
             ArrayList<MoodEntry> list = new ArrayList<>();
-
             SharedPreferences prefs = requireActivity().getSharedPreferences("moods", Context.MODE_PRIVATE);
 
             for (String key : prefs.getAll().keySet()) {
-                String value = prefs.getString(key, "");
-                String[] parts = value.split("\\|");
-
+                String raw = prefs.getString(key, "");
+                String[] parts = raw.split("\\|");
                 if (parts.length == 3) {
-                    String emoji = parts[0];
-                    String note = parts[1];
-                    long timestamp = Long.parseLong(parts[2]);
-
-                    list.add(new MoodEntry(emoji, note, timestamp));
+                    list.add(new MoodEntry(parts[0], parts[1], Long.parseLong(parts[2])));
                 }
             }
 
+            list.sort((a, b) -> Long.compare(b.getTimestamp(), a.getTimestamp()));
             return list;
         }
 
@@ -163,7 +156,12 @@ public class MoodHistoryFragment extends Fragment {
             progressBar.setVisibility(View.GONE);
             moodList.clear();
             moodList.addAll(result);
+
+            adapter = new MoodAdapter(requireActivity(), moodList); // Set adapter after listview is ready
+            listView.setAdapter(adapter);
+
             adapter.notifyDataSetChanged();
+
         }
     }
 

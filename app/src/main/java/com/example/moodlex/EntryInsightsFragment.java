@@ -5,19 +5,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.moodlex.BuildConfig;
-import com.example.moodlex.R;
 import com.example.moodlex.ai.ApiClient;
 import com.example.moodlex.ai.OpenAIRequest;
 import com.example.moodlex.ai.OpenAIResponse;
@@ -63,9 +60,10 @@ public class EntryInsightsFragment extends Fragment {
 
     private void loadEntries() {
         SharedPreferences prefs = requireActivity().getSharedPreferences("moods", Context.MODE_PRIVATE);
-
         entries.clear();
 
+        // temp list for entries with timestamps
+        ArrayList<Pair<Long, String>> tempList = new ArrayList<>();
         for (String key : prefs.getAll().keySet()) {
             String entry = prefs.getString(key, "");
             if (!entry.contains("|")) continue;
@@ -73,11 +71,19 @@ public class EntryInsightsFragment extends Fragment {
             String[] parts = entry.split("\\|");
             if (parts.length != 3) continue;
 
+            long timestamp = Long.parseLong(parts[2]);
+            tempList.add(new Pair<>(timestamp, entry));
+        }
+
+        // sort by date (desc)
+        tempList.sort((a, b) -> Long.compare(b.first, a.first));
+        for (Pair<Long, String> pair : tempList) {
+            String[] parts = pair.second.split("\\|");
             String emoji = parts[0];
             String note = parts[1];
             long timestamp = Long.parseLong(parts[2]);
-
             Date d = new Date(timestamp);
+
             entries.add(emoji + " - " + note + "\n" + d.toString());
         }
 
@@ -87,6 +93,7 @@ public class EntryInsightsFragment extends Fragment {
                 entries
         ));
     }
+
 
     private void analyzeSingleEntry(String entry) {
 

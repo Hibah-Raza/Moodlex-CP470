@@ -4,29 +4,22 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.moodlex.BuildConfig;
-import com.example.moodlex.R;
 import com.example.moodlex.ai.ApiClient;
 import com.example.moodlex.ai.OpenAIRequest;
 import com.example.moodlex.ai.OpenAIResponse;
 import com.example.moodlex.ai.OpenAIService;
 
 import java.util.ArrayList;
-import java.util.Date;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
