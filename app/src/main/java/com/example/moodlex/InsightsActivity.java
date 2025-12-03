@@ -1,49 +1,45 @@
 package com.example.moodlex;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-
-public class JournalActivity extends AppCompatActivity {
+public class InsightsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_journal);
+        setContentView(R.layout.activity_insights);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_journal);
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar_insights);
         setSupportActionBar(toolbar);
 
-        // enable back button
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (savedInstanceState == null) {
-            loadFragment(new JournalWriteFragment());
-        }
-        // handle back button, want to go back to main
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 finish();
             }
         });
+
+        // default fragment ts
+        loadFragment(new WeeklyInsightsFragment());
     }
 
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.journal_fragment_container, fragment)
+                .replace(R.id.insights_fragment_container, fragment)
                 //.addToBackStack(null)
                 .commit();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.journal_menu, menu);
+        getMenuInflater().inflate(R.menu.insights_menu, menu);
         return true;
     }
 
@@ -52,22 +48,20 @@ public class JournalActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if (id == R.id.menu_journal_write) { // same logic used in MoodActivity
-            loadFragment(new JournalWriteFragment());
+        if (id == R.id.menu_weekly_insights) {
+            loadFragment(new WeeklyInsightsFragment());
             return true;
         }
-
-        if (id == R.id.menu_journal_history) {
-            loadFragment(new JournalHistoryFragment());
+        if (id == R.id.menu_entry_insights) {
+            loadFragment(new EntryInsightsFragment());
             return true;
         }
-
-        if (id == R.id.menu_journal_help) {
+        if (id == R.id.menu_insights_help) {
             showHelpDialog();
             return true;
         }
-
-        if (id == R.id.journal_home) {
+        if (id == R.id.insights_home) {
+            //startActivity(new Intent(this, MainActivity.class));
             finish();
             return true;
         }
@@ -78,7 +72,7 @@ public class JournalActivity extends AppCompatActivity {
     private void showHelpDialog() {
 
         String helpMessage =
-                "Version 1.1\n\n" +
+                "Version 1.3\n\n" +
                         "Group Members:\n" +
                         "- Samir Bani\n" +
                         "- Hibah Choudhry\n" +
@@ -86,10 +80,9 @@ public class JournalActivity extends AppCompatActivity {
                         "- Bukunmi Kadri\n" +
                         "- Vidya Puliadi Ravi Chandran\n\n" +
                         "Instructions:\n" +
-                        "- Write: Type a journal entry and press Save.\n" +
-                        "- History: View all your past entries.\n" +
-                        "  - Tap an entry to view or delete it.\n" +
-                        "  - Use Delete All to clear all entries.\n";
+                        "- Weekly Insights analyzes your mood history using AI.\n" +
+                        "- Entry Insights analyzes individual mood logs.\n" +
+                        "- Powered by OpenAI API.\n";
 
         new AlertDialog.Builder(this)
                 .setTitle("Journal Help")

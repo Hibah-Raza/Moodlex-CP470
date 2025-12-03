@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_analyze_week"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Analyze Weekly Mood"/>
+
+        <TextView
+            android:id="@+id/txt_weekly_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:paddingTop="12dp"
+            android:text="Analyze Weekly Mood"/>
+
+        <ProgressBar
+            android:id="@+id/progress_ai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/txt_ai_output"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:paddingTop="20dp"
+            android:textColor="@android:color/black"/>
+    </LinearLayout>
+</ScrollView>

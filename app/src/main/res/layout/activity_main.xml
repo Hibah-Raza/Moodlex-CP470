@@ -37,8 +37,8 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
-        android:id="@+id/btn_trends"
-        android:text="Trends"
+        android:id="@+id/btn_insights"
+        android:text="Insights"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

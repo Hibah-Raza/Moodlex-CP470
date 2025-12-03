@@ -89,8 +89,8 @@ public class MoodActivity extends AppCompatActivity {
 
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.moodFragmentContainer, fragment)
-                .addToBackStack(null)
+                .replace(R.id.mood_fragmentC_container, fragment)
+                //.addToBackStack(null)
                 .commit();
     }
 

@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+<item
+    android:id="@+id/insights_home"
+    android:title="Home"
+    android:orderInCategory="1"
+    app:showAsAction="always" />
+
+<item
+    android:id="@+id/menu_entry_insights"
+    android:title="Entry Insights"
+    android:orderInCategory="2"
+    app:showAsAction="always"/>
+
+<item
+    android:id="@+id/menu_weekly_insights"
+    android:title="Weekly"
+    android:orderInCategory="3"
+    app:showAsAction="always"/>
+
+<item
+    android:id="@+id/menu_insights_help"
+    android:title="Help"
+    app:showAsAction="never"
+    android:orderInCategory="4"
+    />
+
+</menu>

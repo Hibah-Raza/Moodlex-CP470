@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnMood = findViewById(R.id.btn_mood);
         Button btnJournal = findViewById(R.id.btn_journal);
-        Button btnTrends = findViewById(R.id.btn_trends);
+        Button btnTrends = findViewById(R.id.btn_insights);
 
         btnMood.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, MoodActivity.class);
@@ -36,11 +35,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        btnTrends.setOnClickListener(v ->
-                showNotReadyMessage()
-                /*            Intent intent = new Intent(MainActivity.this, JournalActivity.class);
-            startActivity(intent);*/
-        );
+        btnTrends.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, InsightsActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void showNotReadyMessage() {
@@ -62,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle("Help & Instructions")  // hardcoded string
                 .setMessage(message)
-                .setPositiveButton("OK", null)  // hardcoded string
+                .setPositiveButton("Ok", null)  // hardcoded string
                 .create()
                 .show();
     }
@@ -86,9 +84,8 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.menu_trends) {
-            // Placeholder until TrendsActivity is built
-            Toast.makeText(this, "Trends section coming soon!", Toast.LENGTH_SHORT).show();
-            /*startActivity(new Intent(this, JournalActivity.class));*/
+            //Toast.makeText(this, "Trends section coming soon!", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, InsightsActivity.class));
             return true;
         }
         if (id == R.id.menu_mood_help) {
