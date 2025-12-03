@@ -42,10 +42,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showNotReadyMessage() {
-        android.widget.Toast.makeText(this, "Coming soon!", android.widget.Toast.LENGTH_SHORT).show();
+        android.widget.Toast.makeText(this, "Coming soon!", android.widget.Toast.LENGTH_SHORT).show();  // hardcoded string
     }
 
-    private void showMainHelpDialog() {
+    private void showMainHelpDialog() {  // hardcoded string
 
         String message =
                 "Moodlex App (Version 1.0)\n\n" +
@@ -58,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
                         "• All sections include a Home option to return here.\n";
 
         new AlertDialog.Builder(this)
-                .setTitle("Help & Instructions")
+                .setTitle("Help & Instructions")  // hardcoded string
                 .setMessage(message)
-                .setPositiveButton("OK", null)
+                .setPositiveButton("OK", null)  // hardcoded string
                 .create()
                 .show();
     }
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.menu_journal) {
             // Placeholder until JournalActivity is built
-            Toast.makeText(this, "Journal section coming soon!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Journal section coming soon!", Toast.LENGTH_SHORT).show();  // hardcoded string
             return true;
         }
         if (id == R.id.menu_trends) {

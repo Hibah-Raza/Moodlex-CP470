@@ -3,14 +3,9 @@ package com.example.moodlex;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MoodActivity extends AppCompatActivity {
 
@@ -55,7 +50,7 @@ public class MoodActivity extends AppCompatActivity {
         });
     }
 
-    private void showHelpDialog() {
+    private void showHelpDialog() {  // hardcoded string
 
         String helpMessage =
                 "Mood Section (Version 1.0)\n\n" +
@@ -77,9 +72,9 @@ public class MoodActivity extends AppCompatActivity {
                         "This section tracks your emotional patterns to help with reflection and communication.";
 
         new AlertDialog.Builder(this)
-                .setTitle("Help & Instructions")
+                .setTitle("Help & Instructions")  // hardcoded string
                 .setMessage(helpMessage)
-                .setPositiveButton("OK", null)
+                .setPositiveButton("OK", null)  // hardcoded string
                 .create()
                 .show();
     }

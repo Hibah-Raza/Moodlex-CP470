@@ -2,6 +2,7 @@ package com.example.moodlex;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,23 +35,51 @@ public class MoodCheckInFragment extends Fragment {
         EditText noteInput = view.findViewById(R.id.et_note);
         progressBar = view.findViewById(R.id.progress_save);
 
-        // Emoji listeners
-        happy.setOnClickListener(v -> selectedMood = "😊");
-        neutral.setOnClickListener(v -> selectedMood = "😐");
-        sad.setOnClickListener(v -> selectedMood = "😢");
+        int selectedColor = getResources().getColor(R.color.mood_selected);
+
+        // Emoji listeners, change background color on click
+        happy.setOnClickListener(v -> {
+            selectedMood = "😊";
+            resetMoodButtons(happy, neutral, sad);
+            happy.setBackgroundTintList(ColorStateList.valueOf(selectedColor));
+        });
+
+        neutral.setOnClickListener(v -> {
+            selectedMood = "😐";
+            resetMoodButtons(happy, neutral, sad);
+            neutral.setBackgroundTintList(ColorStateList.valueOf(selectedColor));
+        });
+
+        sad.setOnClickListener(v -> {
+            selectedMood = "😢";
+            resetMoodButtons(happy, neutral, sad);
+            sad.setBackgroundTintList(ColorStateList.valueOf(selectedColor));
+        });
 
         save.setOnClickListener(v -> {
             if (selectedMood.isEmpty()) {
-                Toast.makeText(getActivity(), "Please select a mood", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Please select a mood", Toast.LENGTH_SHORT).show();  // hardcoded string
                 return;
             }
-
             progressBar.setVisibility(View.VISIBLE);
 
             new SaveMoodTask(noteInput.getText().toString()).execute();
+
+            //set to default color
+            //resetMoodButtons(happy, neutral, sad);
+            noteInput.setText("");
+            //selectedMood = "";
         });
 
         return view;
+    }
+
+    private void resetMoodButtons(Button happy, Button neutral, Button sad) {
+        int defaultColor = getResources().getColor(R.color.mood_default);
+
+        happy.setBackgroundTintList(ColorStateList.valueOf(defaultColor));
+        neutral.setBackgroundTintList(ColorStateList.valueOf(defaultColor));
+        sad.setBackgroundTintList(ColorStateList.valueOf(defaultColor));
     }
 
     private class SaveMoodTask extends AsyncTask<Void, Void, Void> {
@@ -78,7 +107,7 @@ public class MoodCheckInFragment extends Fragment {
         protected void onPostExecute(Void unused) {
             progressBar.setVisibility(View.GONE);
 
-            Snackbar.make(getView(), "Mood saved!", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(getView(), "Mood saved!", Snackbar.LENGTH_LONG).show();  // hardcoded string
         }
     }
 }

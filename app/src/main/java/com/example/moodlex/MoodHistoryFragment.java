@@ -1,7 +1,6 @@
 package com.example.moodlex;
 
 import android.os.Bundle;
-
 import androidx.appcompat.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -20,10 +18,12 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MoodHistoryFragment extends Fragment {
 
     private ArrayList<MoodEntry> moodList = new ArrayList<>();
+    private MoodAdapter adapter;
     private ProgressBar progressBar;
     private ListView listView;
 
@@ -35,10 +35,12 @@ public class MoodHistoryFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_mood_history, container, false);
 
+        progressBar = view.findViewById(R.id.progress_history); // Get views
+        listView = view.findViewById(R.id.list_moods);
         Button deleteAll = view.findViewById(R.id.btn_delete_all);
 
-        progressBar = view.findViewById(R.id.progress_history);
-        listView = view.findViewById(R.id.list_moods);
+        adapter = new MoodAdapter(requireActivity(), moodList); // Set adapter after listview is ready
+        listView.setAdapter(adapter);
 
         new LoadMoodsTask().execute();
 
@@ -64,18 +66,24 @@ public class MoodHistoryFragment extends Fragment {
 
             // Handle delete button
             dialogView.findViewById(R.id.btn_dialog_delete).setOnClickListener(btn -> {
+                new AlertDialog.Builder(requireContext())
+                        .setTitle("Delete Mood")  // hardcoded string
+                        .setMessage("Are you sure you want to delete this mood?")
+                        .setPositiveButton("Yes", (d, which) -> {  // hardcoded string
+                            SharedPreferences prefs = requireActivity()
+                                    .getSharedPreferences("moods", Context.MODE_PRIVATE);
+                            prefs.edit().remove("mood_" + entry.getTimestamp()).apply();
+                            moodList.remove(position);
+                            adapter.notifyDataSetChanged();
 
-                SharedPreferences prefs = requireActivity().getSharedPreferences("moods", Context.MODE_PRIVATE);
-                prefs.edit().remove("mood_" + entry.getTimestamp()).apply();
+                            Snackbar.make(requireView(), "Mood deleted!", Snackbar.LENGTH_LONG).show();  // hardcoded string
 
-                moodList.remove(position);
-
-                // Update adapter
-                ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
-
-                Snackbar.make(requireView(), "Mood deleted!", Snackbar.LENGTH_LONG).show();
-
-                dialog.dismiss();
+                            d.dismiss();
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancel", (d, which) -> d.dismiss())  // hardcoded string
+                        .create()
+                        .show();
             });
 
             // Handle cancel button
@@ -90,10 +98,10 @@ public class MoodHistoryFragment extends Fragment {
         deleteAll.setOnClickListener(v -> {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Delete All Moods");
-            builder.setMessage("Are you sure you want to delete ALL mood entries?");
+            builder.setTitle("Delete All Moods");  // hardcoded string
+            builder.setMessage("Are you sure you want to delete ALL mood entries?");  // hardcoded string
 
-            builder.setPositiveButton("Yes", (dialog, which) -> {
+            builder.setPositiveButton("Yes", (dialog, which) -> {  // hardcoded string
 
                 SharedPreferences prefs = requireActivity().getSharedPreferences("moods", Context.MODE_PRIVATE);
                 prefs.edit().clear().apply();
@@ -108,10 +116,10 @@ public class MoodHistoryFragment extends Fragment {
                 );
                 listView.setAdapter(adapter);
 
-                Snackbar.make(view, "All moods deleted!", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(view, "All moods deleted!", Snackbar.LENGTH_LONG).show();  // hardcoded string
             });
 
-            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());  // hardcoded string
 
             AlertDialog dialogBox = builder.create();
             dialogBox.show();
@@ -131,29 +139,64 @@ public class MoodHistoryFragment extends Fragment {
         @Override
         protected ArrayList<MoodEntry> doInBackground(Void... voids) {
             ArrayList<MoodEntry> list = new ArrayList<>();
-            SharedPreferences prefs = getActivity().getSharedPreferences("moods", Context.MODE_PRIVATE);
+
+            SharedPreferences prefs = requireActivity().getSharedPreferences("moods", Context.MODE_PRIVATE);
 
             for (String key : prefs.getAll().keySet()) {
-                String[] parts = prefs.getString(key, "").split("\\|");
+                String value = prefs.getString(key, "");
+                String[] parts = value.split("\\|");
+
                 if (parts.length == 3) {
-                    list.add(new MoodEntry(parts[0], parts[1], Long.parseLong(parts[2])));
+                    String emoji = parts[0];
+                    String note = parts[1];
+                    long timestamp = Long.parseLong(parts[2]);
+
+                    list.add(new MoodEntry(emoji, note, timestamp));
                 }
             }
+
             return list;
         }
 
         @Override
         protected void onPostExecute(ArrayList<MoodEntry> result) {
             progressBar.setVisibility(View.GONE);
-            moodList = result;
+            moodList.clear();
+            moodList.addAll(result);
+            adapter.notifyDataSetChanged();
+        }
+    }
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                    getActivity(),
-                    android.R.layout.simple_list_item_1,
-                    moodList.stream().map(e -> e.getMoodEmoji() + " - " + e.getNote()).toArray(String[]::new)
-            );
+    private class MoodAdapter extends ArrayAdapter<MoodEntry> {
 
-            listView.setAdapter(adapter);
+        private Context context;
+        private List<MoodEntry> list;
+
+        public MoodAdapter(Context context, List<MoodEntry> list) {
+            super(context, 0, list);
+            this.context = context;
+            this.list = list;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            MoodEntry entry = list.get(position);
+
+            if (convertView == null) {
+                convertView = LayoutInflater.from(context)
+                        .inflate(R.layout.item_mood, parent, false);
+            }
+
+            TextView emoji = convertView.findViewById(R.id.tv_row_emoji);
+            TextView note = convertView.findViewById(R.id.tv_row_note);
+            TextView time = convertView.findViewById(R.id.tv_row_time);
+
+            emoji.setText(entry.getMoodEmoji());
+            note.setText(entry.getNote());
+            time.setText(new java.util.Date(entry.getTimestamp()).toString());
+
+            return convertView;
         }
     }
 }
