@@ -7,10 +7,11 @@ plugins {
 android {
     namespace = "com.example.moodlex"
     compileSdk = 36
-        buildFeatures {
-            buildConfig = true
-            resValues = true
-        }
+
+    buildFeatures {
+        buildConfig = true
+        resValues = true
+    }
 
     defaultConfig {
         applicationId = "com.example.moodlex"
@@ -27,7 +28,7 @@ android {
 
     val localProperties = Properties()
     val localPropertiesFile = File(rootDir, "local.properties")
-    if(localPropertiesFile.exists() && localPropertiesFile.isFile) {
+    if (localPropertiesFile.exists() && localPropertiesFile.isFile) {
         localPropertiesFile.inputStream().use {
             localProperties.load(it)
         }
@@ -40,12 +41,13 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "OPENAI_API_KEY",localProperties.getProperty("OPENAI_API_KEY"))
+            buildConfigField("String", "OPENAI_API_KEY", localProperties.getProperty("OPENAI_API_KEY"))
         }
         debug {
-            buildConfigField("String", "OPENAI_API_KEY",localProperties.getProperty("OPENAI_API_KEY"))
+            buildConfigField("String", "OPENAI_API_KEY", localProperties.getProperty("OPENAI_API_KEY"))
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -53,13 +55,22 @@ android {
 }
 
 dependencies {
+    // Networking
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // AndroidX + Material
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+
+    // Unit testing
     testImplementation(libs.junit)
+
+    // Instrumented testing
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    androidTestImplementation("androidx.test:rules:1.5.0")
 }
