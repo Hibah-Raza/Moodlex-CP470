@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="mood_default">#6750a4</color>
+    <color name="mood_selected">#9585bf</color>
+
+    <color name="colorPrimary">#6750a4</color>  ← THIS one
+    <color name="colorPrimaryVariant">#9585bf</color>
+    <color name="colorSecondary">#32274f</color>
 </resources>

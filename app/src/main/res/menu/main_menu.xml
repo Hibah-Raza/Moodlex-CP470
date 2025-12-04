@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_mood"
+        android:title="Mood Section"
+        android:orderInCategory="1"
+        app:showAsAction="always"/>
+
+
+    <item
+        android:id="@+id/menu_journal"
+        android:title="Journal Section"
+        android:orderInCategory="2"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_trends"
+        android:title="Trends Section"
+        android:orderInCategory="3"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_mood_help"
+        android:title="Help"
+        app:showAsAction="never"
+        android:orderInCategory="4"/>
+</menu>
