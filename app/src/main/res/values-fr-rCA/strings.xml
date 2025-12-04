@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Moodlex</string>
+    <string name="hello_blank_fragment">Bonjour fragment vide</string>
+    <string name="ai_insights">Analyses IA</string>
+    <string name="moodlex">Moodlex</string>
+    <string name="mood">Humeur</string>
+    <string name="journal">Journal</string>
+    <string name="insights">Analyses</string>
+    <string name="delete">Supprimer</string>
+    <string name="close">Fermer</string>
+    <string name="analyzing_with_ai">Analyse avec l’IA...</string>
+    <string name="cancel">Annuler</string>
+    <string name="delete_all_entries">Supprimer toutes les entrées</string>
+    <string name="title_optional">Titre (optionnel)</string>
+    <string name="write_your_thoughts">Écrivez vos pensées...</string>
+    <string name="save_entry">Enregistrer l’entrée</string>
+    <string name="how_are_you_feeling">Comment vous sentez-vous?</string>
+    <string name="optional_note">Note optionnelle...</string>
+    <string name="save_mood">Enregistrer l’humeur</string>
+    <string name="analyze_weekly_mood">Analyser l’humeur hebdomadaire</string>
+    <string name="average_of_all_your_moods_from_the_past_week">Moyenne de toutes vos humeurs de la semaine passée.</string>
+</resources>

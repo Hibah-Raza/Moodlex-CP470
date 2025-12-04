@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:title="Moodlex"
+        android:title="@string/moodlex"
         android:titleTextColor="@android:color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,7 +18,7 @@
 
     <Button
         android:id="@+id/btn_mood"
-        android:text="Mood"
+        android:text="@string/mood"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -28,7 +28,7 @@
 
     <Button
         android:id="@+id/btn_journal"
-        android:text="Journal"
+        android:text="@string/journal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -38,7 +38,7 @@
 
     <Button
         android:id="@+id/btn_insights"
-        android:text="Insights"
+        android:text="@string/insights"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

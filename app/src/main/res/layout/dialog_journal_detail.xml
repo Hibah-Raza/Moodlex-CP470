@@ -48,7 +48,7 @@
         <Button
             android:id="@+id/btn_dialog_journal_delete"
             style="?android:attr/buttonBarButtonStyle"
-            android:text="Delete"
+            android:text="@string/delete"
             android:textColor="@android:color/white"
             android:layout_marginStart="20dp"
             android:backgroundTint="#D32F2F"
@@ -58,7 +58,7 @@
         <Button
             android:id="@+id/btn_dialog_journal_cancel"
             style="?android:attr/buttonBarButtonStyle"
-            android:text="Close"
+            android:text="@string/close"
             android:textColor="@android:color/white"
             android:layout_marginStart="20dp"
             android:backgroundTint="@color/mood_default"

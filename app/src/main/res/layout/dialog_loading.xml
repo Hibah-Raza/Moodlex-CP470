@@ -14,6 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:text="Analyzing with AI..."
+        android:text="@string/analyzing_with_ai"
         android:textSize="16sp"/>
 </LinearLayout>

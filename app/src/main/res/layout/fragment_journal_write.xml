@@ -11,7 +11,7 @@
 
         <EditText
             android:id="@+id/journal_title"
-            android:hint="Title (optional)"
+            android:hint="@string/title_optional"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
@@ -20,7 +20,7 @@
 
         <EditText
             android:id="@+id/journal_body"
-            android:hint="Write your thoughts..."
+            android:hint="@string/write_your_thoughts"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:padding="12dp"
@@ -33,7 +33,7 @@
             android:id="@+id/save_journal_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Entry"
+            android:text="@string/save_entry"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/mood_default"
             android:textColor="@android:color/white"

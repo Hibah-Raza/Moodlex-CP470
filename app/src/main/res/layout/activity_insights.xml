@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:title="AI Insights"
+        android:title="@string/ai_insights"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <FrameLayout
